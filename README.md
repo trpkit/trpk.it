@@ -1,6 +1,6 @@
 ## trpk.it
 
-URL shortening service built for [Trpkit LLC](https://trpkit.com) and its products.
+URL shortener service built for [Trpkit LLC](https://trpkit.com) and its products.
 
 ### License
 
