@@ -1,0 +1,15 @@
+[package]
+name = "trpk-it"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+dotenv = "0.15.0"
+actix-web = "4.1.0"
+mongodb = { version = "2.2.2", default-features = false, features = ["async-std-runtime"] }
+
+[target.'cfg(all(target_env = "musl", target_pointer_width = "64"))'.dependencies.jemallocator]
+version = "0.5.0"
+
+[profile.release]
+opt-level = 'z'
