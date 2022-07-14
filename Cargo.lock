@@ -1914,6 +1914,9 @@ dependencies = [
  "dotenv",
  "jemallocator",
  "mongodb",
+ "rand",
+ "serde",
+ "url",
 ]
 
 [[package]]
@@ -2015,6 +2018,7 @@ dependencies = [
  "idna",
  "matches",
  "percent-encoding",
+ "serde",
 ]
 
 [[package]]

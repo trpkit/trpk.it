@@ -27,7 +27,11 @@ async fn main() -> std::io::Result<()> {
             .wrap(NormalizePath::trim())
             .wrap(Compress::default())
             .service(router::index)
-            .service(scope("/api").service(router::healthcheck))
+            .service(
+                scope("/api")
+                    .service(router::healthcheck)
+                    .service(router::shorten),
+            )
     })
     .bind("0.0.0.0:8888")?
     .run()
