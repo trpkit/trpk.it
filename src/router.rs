@@ -8,3 +8,10 @@ pub async fn index() -> Result<HttpResponse, Error> {
         .insert_header((header::LOCATION, "https://trpkit.com"))
         .finish())
 }
+
+// Healthcheck that responds with 200 OK. We monitor this endpoint to ensure that our service is up and running.
+#[actix_web::get("/healthcheck")]
+pub async fn healthcheck() -> Result<HttpResponse, Error> {
+    Ok(HttpResponse::Ok().finish())
+}
+

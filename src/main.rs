@@ -1,7 +1,7 @@
 mod router;
 
 use actix_web::middleware::{Compress, NormalizePath};
-use actix_web::web::Data;
+use actix_web::web::{scope, Data};
 use actix_web::{App, HttpServer};
 use mongodb::Client;
 
@@ -27,6 +27,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(NormalizePath::trim())
             .wrap(Compress::default())
             .service(router::index)
+            .service(scope("/api").service(router::healthcheck))
     })
     .bind("0.0.0.0:8888")?
     .run()
