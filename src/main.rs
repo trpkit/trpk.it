@@ -27,6 +27,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(NormalizePath::trim())
             .wrap(Compress::default())
             .service(router::index)
+            .service(router::redirect)
             .service(
                 scope("/api")
                     .service(router::healthcheck)

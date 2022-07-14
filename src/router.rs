@@ -1,5 +1,5 @@
 use actix_web::http::header;
-use actix_web::web::{Data, Json};
+use actix_web::web::{Data, Json, Path};
 use actix_web::{error, Error, HttpResponse};
 use mongodb::bson;
 use mongodb::Client;
@@ -50,7 +50,7 @@ pub async fn shorten(
         .map_err(error::ErrorBadRequest)?
         .to_string();
 
-    let coll = client.database("trpk-it").collection(COLL);
+    let coll = client.database("trpk-it").collection::<ShortenUrl>(COLL);
 
     let id = loop {
         let id: String = rand::thread_rng()
@@ -81,4 +81,21 @@ pub async fn shorten(
     .map_err(error::ErrorInternalServerError)?;
 
     Ok(HttpResponse::Ok().json(ShortenUrlResult { id }))
+}
+
+#[actix_web::get("/{id}")]
+pub async fn redirect(client: Data<Client>, id: Path<String>) -> Result<HttpResponse, Error> {
+    let coll = client.database("trpk-it").collection::<ShortenUrl>(COLL);
+
+    let url = coll
+        .find_one(bson::doc!("id": id.into_inner()), None)
+        .await
+        .map_err(error::ErrorInternalServerError)?;
+
+    Ok(match url {
+        None => HttpResponse::NotFound().finish(),
+        Some(url) => HttpResponse::PermanentRedirect()
+            .insert_header((header::LOCATION, url.url))
+            .finish(),
+    })
 }
