@@ -83,6 +83,7 @@ pub async fn shorten(
     Ok(HttpResponse::Ok().json(ShortenUrlResult { id }))
 }
 
+// Redirect to the original URL
 #[actix_web::get("/{id}")]
 pub async fn redirect(client: Data<Client>, id: Path<String>) -> Result<HttpResponse, Error> {
     let coll = client.database("trpk-it").collection::<ShortenUrl>(COLL);
