@@ -5,11 +5,6 @@ use actix_web::web::{scope, Data};
 use actix_web::{guard, App, HttpServer};
 use mongodb::Client;
 
-// Use Jemalloc for musl 64-bit platforms
-#[cfg(all(target_env = "musl", target_pointer_width = "64"))]
-#[global_allocator]
-static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
-
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv::dotenv().ok();
